@@ -639,7 +639,7 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
     ) external;
 }
 
-contract FireToken is Context, IERC20, Ownable {
+contract DominiDataToken is Context, IERC20, Ownable {
     using SafeMath for uint256;
     using Address for address;
 
@@ -653,7 +653,7 @@ contract FireToken is Context, IERC20, Ownable {
     address[] private _excluded;
 
     uint256 private constant MAX = ~uint256(0);
-    uint256 private _tTotal = 2000000000 * 10**6 * 10**9;
+    uint256 private _tTotal = 1000000000 * 10**6 * 10**9;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 
@@ -661,10 +661,10 @@ contract FireToken is Context, IERC20, Ownable {
     string private _symbol = "FT";
     uint8 private _decimals = 9;
 
-    uint256 public _taxFee = 7;
+    uint256 public _taxFee = 75;
     uint256 private _previousTaxFee = _taxFee;
 
-    uint256 public _liquidityFee = 7;
+    uint256 public _liquidityFee = 5;
     uint256 private _previousLiquidityFee = _liquidityFee;
 
     IUniswapV2Router02 public immutable uniswapV2Router;
