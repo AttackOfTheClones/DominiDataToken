@@ -1,10 +1,11 @@
 /**
- *Submitted for verification at BscScan.com on 2021-05-26
-*/
-
-// SPDX-License-Identifier: MIT
+  
+   Owners of Data
+   
+ */
 
 pragma solidity ^0.6.12;
+// SPDX-License-Identifier: Unlicensed
 interface IERC20 {
 
     function totalSupply() external view returns (uint256);
@@ -74,6 +75,22 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
+
+
+/**
+ * @dev Wrappers over Solidity's arithmetic operations with added overflow
+ * checks.
+ *
+ * Arithmetic operations in Solidity wrap on overflow. This can easily result
+ * in bugs, because programmers usually assume that an overflow raises an
+ * error, which is the standard behavior in high level programming languages.
+ * `SafeMath` restores this intuition by reverting the transaction when an
+ * operation overflows.
+ *
+ * Using this library instead of the unchecked operations eliminates an entire
+ * class of bugs, so it's recommended to use it always.
+ */
+ 
 library SafeMath {
     /**
      * @dev Returns the addition of two unsigned integers, reverting on
@@ -228,6 +245,10 @@ abstract contract Context {
     }
 }
 
+
+/**
+ * @dev Collection of functions related to the address type
+ */
 library Address {
     /**
      * @dev Returns true if `account` is a contract.
@@ -300,7 +321,7 @@ library Address {
      * _Available since v3.1._
      */
     function functionCall(address target, bytes memory data) internal returns (bytes memory) {
-        return functionCall(target, data, "Address: low-level call failed");
+      return functionCall(target, data, "Address: low-level call failed");
     }
 
     /**
@@ -363,6 +384,18 @@ library Address {
     }
 }
 
+/**
+ * @dev Contract module which provides a basic access control mechanism, where
+ * there is an account (an owner) that can be granted exclusive access to
+ * specific functions.
+ *
+ * By default, the owner account will be the one that deploys the contract. This
+ * can later be changed with {transferOwnership}.
+ *
+ * This module is used through inheritance. It will make available the modifier
+ * `onlyOwner`, which can be applied to your functions to restrict their use to
+ * the owner.
+ */
 contract Ownable is Context {
     address private _owner;
     address private _previousOwner;
@@ -394,13 +427,13 @@ contract Ownable is Context {
         _;
     }
 
-    /**
-    * @dev Leaves the contract without owner. It will not be possible to call
-    * `onlyOwner` functions anymore. Can only be called by the current owner.
-    *
-    * NOTE: Renouncing ownership will leave the contract without an owner,
-    * thereby removing any functionality that is only available to the owner.
-    */
+     /**
+     * @dev Leaves the contract without owner. It will not be possible to call
+     * `onlyOwner` functions anymore. Can only be called by the current owner.
+     *
+     * NOTE: Renouncing ownership will leave the contract without an owner,
+     * thereby removing any functionality that is only available to the owner.
+     */
     function renounceOwnership() public virtual onlyOwner {
         emit OwnershipTransferred(_owner, address(0));
         _owner = address(0);
@@ -427,7 +460,7 @@ contract Ownable is Context {
         _lockTime = now + time;
         emit OwnershipTransferred(_owner, address(0));
     }
-
+    
     //Unlocks the contract for owner when _lockTime is exceeds
     function unlock() public virtual {
         require(_previousOwner == msg.sender, "You don't have permission to unlock");
@@ -436,6 +469,8 @@ contract Ownable is Context {
         _owner = _previousOwner;
     }
 }
+
+// pragma solidity >=0.5.0;
 
 interface IUniswapV2Factory {
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
@@ -452,6 +487,9 @@ interface IUniswapV2Factory {
     function setFeeTo(address) external;
     function setFeeToSetter(address) external;
 }
+
+
+// pragma solidity >=0.5.0;
 
 interface IUniswapV2Pair {
     event Approval(address indexed owner, address indexed spender, uint value);
@@ -503,6 +541,8 @@ interface IUniswapV2Pair {
 
     function initialize(address, address) external;
 }
+
+// pragma solidity >=0.6.2;
 
 interface IUniswapV2Router01 {
     function factory() external pure returns (address);
@@ -577,19 +617,19 @@ interface IUniswapV2Router01 {
         uint deadline
     ) external returns (uint[] memory amounts);
     function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline)
-    external
-    payable
-    returns (uint[] memory amounts);
+        external
+        payable
+        returns (uint[] memory amounts);
     function swapTokensForExactETH(uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)
-    external
-    returns (uint[] memory amounts);
+        external
+        returns (uint[] memory amounts);
     function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)
-    external
-    returns (uint[] memory amounts);
+        external
+        returns (uint[] memory amounts);
     function swapETHForExactTokens(uint amountOut, address[] calldata path, address to, uint deadline)
-    external
-    payable
-    returns (uint[] memory amounts);
+        external
+        payable
+        returns (uint[] memory amounts);
 
     function quote(uint amountA, uint reserveA, uint reserveB) external pure returns (uint amountB);
     function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) external pure returns (uint amountOut);
@@ -597,6 +637,10 @@ interface IUniswapV2Router01 {
     function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts);
     function getAmountsIn(uint amountOut, address[] calldata path) external view returns (uint[] memory amounts);
 }
+
+
+
+// pragma solidity >=0.6.2;
 
 interface IUniswapV2Router02 is IUniswapV2Router01 {
     function removeLiquidityETHSupportingFeeOnTransferTokens(
@@ -639,7 +683,8 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
     ) external;
 }
 
-contract DominiDataToken is Context, IERC20, Ownable {
+
+contract DominiDataProtocol is Context, IERC20, Ownable {
     using SafeMath for uint256;
     using Address for address;
 
@@ -651,7 +696,7 @@ contract DominiDataToken is Context, IERC20, Ownable {
 
     mapping (address => bool) private _isExcluded;
     address[] private _excluded;
-
+   
     uint256 private constant MAX = ~uint256(0);
     uint256 private _tTotal = 1000000000 * 10**6 * 10**9;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
@@ -660,23 +705,22 @@ contract DominiDataToken is Context, IERC20, Ownable {
     string private _name = "Domini Data Token";
     string private _symbol = "DDT";
     uint8 private _decimals = 9;
-
-    uint256 public _taxFee = 75;
+    
+    uint256 public _taxFee = 5;
     uint256 private _previousTaxFee = _taxFee;
-
+    
     uint256 public _liquidityFee = 5;
     uint256 private _previousLiquidityFee = _liquidityFee;
 
     IUniswapV2Router02 public immutable uniswapV2Router;
     address public immutable uniswapV2Pair;
-
+    
     bool inSwapAndLiquify;
     bool public swapAndLiquifyEnabled = true;
-    bool public tradingEnabled = false;
-
+    
     uint256 public _maxTxAmount = 5000000 * 10**6 * 10**9;
     uint256 private numTokensSellToAddToLiquidity = 500000 * 10**6 * 10**9;
-
+    
     event MinTokensBeforeSwapUpdated(uint256 minTokensBeforeSwap);
     event SwapAndLiquifyEnabledUpdated(bool enabled);
     event SwapAndLiquify(
@@ -684,28 +728,28 @@ contract DominiDataToken is Context, IERC20, Ownable {
         uint256 ethReceived,
         uint256 tokensIntoLiqudity
     );
-
+    
     modifier lockTheSwap {
         inSwapAndLiquify = true;
         _;
         inSwapAndLiquify = false;
     }
-
+    
     constructor () public {
         _rOwned[_msgSender()] = _rTotal;
-
-        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0xD99D1c33F9fC3444f8101754aBC46c52416550D1);
-        // Create a uniswap pair for this new token
+        
+        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x05fF2B0DB69458A0750badebc4f9e13aDd608C7F);
+         // Create a uniswap pair for this new token
         uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
-        .createPair(address(this), _uniswapV2Router.WETH());
+            .createPair(address(this), _uniswapV2Router.WETH());
 
         // set the rest of the contract variables
         uniswapV2Router = _uniswapV2Router;
-
+        
         //exclude owner and this contract from fee
         _isExcludedFromFee[owner()] = true;
         _isExcludedFromFee[address(this)] = true;
-
+        
         emit Transfer(address(0), _msgSender(), _tTotal);
     }
 
@@ -795,6 +839,7 @@ contract DominiDataToken is Context, IERC20, Ownable {
     }
 
     function excludeFromReward(address account) public onlyOwner() {
+        // require(account != 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D, 'We can not exclude Uniswap router.');
         require(!_isExcluded[account], "Account is already excluded");
         if(_rOwned[account] > 0) {
             _tOwned[account] = tokenFromReflection(_rOwned[account]);
@@ -815,33 +860,33 @@ contract DominiDataToken is Context, IERC20, Ownable {
             }
         }
     }
-    function _transferBothExcluded(address sender, address recipient, uint256 tAmount) private {
+        function _transferBothExcluded(address sender, address recipient, uint256 tAmount) private {
         (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee, uint256 tLiquidity) = _getValues(tAmount);
         _tOwned[sender] = _tOwned[sender].sub(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _tOwned[recipient] = _tOwned[recipient].add(tTransferAmount);
-        _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
+        _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);        
         _takeLiquidity(tLiquidity);
         _reflectFee(rFee, tFee);
         emit Transfer(sender, recipient, tTransferAmount);
     }
-
-    function excludeFromFee(address account) public onlyOwner {
+    
+        function excludeFromFee(address account) public onlyOwner {
         _isExcludedFromFee[account] = true;
     }
-
+    
     function includeInFee(address account) public onlyOwner {
         _isExcludedFromFee[account] = false;
     }
-
+    
     function setTaxFeePercent(uint256 taxFee) external onlyOwner() {
         _taxFee = taxFee;
     }
-
+    
     function setLiquidityFeePercent(uint256 liquidityFee) external onlyOwner() {
         _liquidityFee = liquidityFee;
     }
-
+   
     function setMaxTxPercent(uint256 maxTxPercent) external onlyOwner() {
         _maxTxAmount = _tTotal.mul(maxTxPercent).div(
             10**2
@@ -852,11 +897,8 @@ contract DominiDataToken is Context, IERC20, Ownable {
         swapAndLiquifyEnabled = _enabled;
         emit SwapAndLiquifyEnabledUpdated(_enabled);
     }
-
-    function enableTrading() external onlyOwner() {
-        tradingEnabled = true;
-    }
-
+    
+     //to recieve ETH from uniswapV2Router when swaping
     receive() external payable {}
 
     function _reflectFee(uint256 rFee, uint256 tFee) private {
@@ -892,7 +934,7 @@ contract DominiDataToken is Context, IERC20, Ownable {
 
     function _getCurrentSupply() private view returns(uint256, uint256) {
         uint256 rSupply = _rTotal;
-        uint256 tSupply = _tTotal;
+        uint256 tSupply = _tTotal;      
         for (uint256 i = 0; i < _excluded.length; i++) {
             if (_rOwned[_excluded[i]] > rSupply || _tOwned[_excluded[i]] > tSupply) return (_rTotal, _tTotal);
             rSupply = rSupply.sub(_rOwned[_excluded[i]]);
@@ -901,7 +943,7 @@ contract DominiDataToken is Context, IERC20, Ownable {
         if (rSupply < _rTotal.div(_tTotal)) return (_rTotal, _tTotal);
         return (rSupply, tSupply);
     }
-
+    
     function _takeLiquidity(uint256 tLiquidity) private {
         uint256 currentRate =  _getRate();
         uint256 rLiquidity = tLiquidity.mul(currentRate);
@@ -909,7 +951,7 @@ contract DominiDataToken is Context, IERC20, Ownable {
         if(_isExcluded[address(this)])
             _tOwned[address(this)] = _tOwned[address(this)].add(tLiquidity);
     }
-
+    
     function calculateTaxFee(uint256 _amount) private view returns (uint256) {
         return _amount.mul(_taxFee).div(
             10**2
@@ -921,22 +963,22 @@ contract DominiDataToken is Context, IERC20, Ownable {
             10**2
         );
     }
-
+    
     function removeAllFee() private {
         if(_taxFee == 0 && _liquidityFee == 0) return;
-
+        
         _previousTaxFee = _taxFee;
         _previousLiquidityFee = _liquidityFee;
-
+        
         _taxFee = 0;
         _liquidityFee = 0;
     }
-
+    
     function restoreAllFee() private {
         _taxFee = _previousTaxFee;
         _liquidityFee = _previousLiquidityFee;
     }
-
+    
     function isExcludedFromFee(address account) public view returns(bool) {
         return _isExcludedFromFee[account];
     }
@@ -957,25 +999,20 @@ contract DominiDataToken is Context, IERC20, Ownable {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
         require(amount > 0, "Transfer amount must be greater than zero");
-
         if(from != owner() && to != owner())
             require(amount <= _maxTxAmount, "Transfer amount exceeds the maxTxAmount.");
-
-        if (from != owner() && !tradingEnabled) {
-            require(tradingEnabled, "Trading is not enabled yet");
-        }
 
         // is the token balance of this contract address over the min number of
         // tokens that we need to initiate a swap + liquidity lock?
         // also, don't get caught in a circular liquidity event.
         // also, don't swap & liquify if sender is uniswap pair.
         uint256 contractTokenBalance = balanceOf(address(this));
-
+        
         if(contractTokenBalance >= _maxTxAmount)
         {
             contractTokenBalance = _maxTxAmount;
         }
-
+        
         bool overMinTokenBalance = contractTokenBalance >= numTokensSellToAddToLiquidity;
         if (
             overMinTokenBalance &&
@@ -987,15 +1024,15 @@ contract DominiDataToken is Context, IERC20, Ownable {
             //add liquidity
             swapAndLiquify(contractTokenBalance);
         }
-
+        
         //indicates if fee should be deducted from transfer
         bool takeFee = true;
-
+        
         //if any account belongs to _isExcludedFromFee account then remove the fee
         if(_isExcludedFromFee[from] || _isExcludedFromFee[to]){
             takeFee = false;
         }
-
+        
         //transfer amount, it will take tax, burn, liquidity fee
         _tokenTransfer(from,to,amount,takeFee);
     }
@@ -1019,7 +1056,7 @@ contract DominiDataToken is Context, IERC20, Ownable {
 
         // add liquidity to uniswap
         addLiquidity(otherHalf, newBalance);
-
+        
         emit SwapAndLiquify(half, newBalance, otherHalf);
     }
 
@@ -1060,7 +1097,7 @@ contract DominiDataToken is Context, IERC20, Ownable {
     function _tokenTransfer(address sender, address recipient, uint256 amount,bool takeFee) private {
         if(!takeFee)
             removeAllFee();
-
+        
         if (_isExcluded[sender] && !_isExcluded[recipient]) {
             _transferFromExcluded(sender, recipient, amount);
         } else if (!_isExcluded[sender] && _isExcluded[recipient]) {
@@ -1072,7 +1109,7 @@ contract DominiDataToken is Context, IERC20, Ownable {
         } else {
             _transferStandard(sender, recipient, amount);
         }
-
+        
         if(!takeFee)
             restoreAllFee();
     }
@@ -1090,7 +1127,7 @@ contract DominiDataToken is Context, IERC20, Ownable {
         (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee, uint256 tLiquidity) = _getValues(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _tOwned[recipient] = _tOwned[recipient].add(tTransferAmount);
-        _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
+        _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);           
         _takeLiquidity(tLiquidity);
         _reflectFee(rFee, tFee);
         emit Transfer(sender, recipient, tTransferAmount);
@@ -1100,13 +1137,13 @@ contract DominiDataToken is Context, IERC20, Ownable {
         (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee, uint256 tLiquidity) = _getValues(tAmount);
         _tOwned[sender] = _tOwned[sender].sub(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
-        _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
+        _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);   
         _takeLiquidity(tLiquidity);
         _reflectFee(rFee, tFee);
         emit Transfer(sender, recipient, tTransferAmount);
     }
 
 
-
+    
 
 }
